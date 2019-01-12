@@ -3,7 +3,7 @@ extern crate dirs;
 use std::{env, path};
 
 mod command;
-pub use self::command::{Command, CommandResult, CommandError};
+pub use self::command::{Command, CommandError, CommandResult};
 
 pub struct Shell {
     pwd: path::PathBuf,
@@ -14,16 +14,15 @@ impl Shell {
     pub fn new() -> Shell {
         let pwd = env::current_dir().unwrap();
 
-        let os_path: Vec<String> = env::var_os("PATH").unwrap()
-            .into_string().unwrap()
+        let os_path: Vec<String> = env::var_os("PATH")
+            .unwrap()
+            .into_string()
+            .unwrap()
             .split(':')
-            .map(|el| String::from(el))
+            .map(String::from)
             .collect();
 
-        Shell {
-            pwd,
-            os_path,
-        }
+        Shell { pwd, os_path }
     }
 
     pub fn exec(&self, buffer: &str) -> Result<command::CommandResult, command::CommandError> {

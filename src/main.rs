@@ -26,12 +26,12 @@ fn main() {
                     Some(message) => print!("{}", message),
 
                     None => continue,
-                }
+                },
 
                 shell::CommandResult::Exit => {
                     break;
                 }
-            }
+            },
 
             Err(error) => match error {
                 shell::CommandError::Fail(error) => {
@@ -41,7 +41,7 @@ fn main() {
                 shell::CommandError::NotFound(command_name) => {
                     eprintln!("shell: command not found: {}", command_name);
                 }
-            }
+            },
         }
     }
 }

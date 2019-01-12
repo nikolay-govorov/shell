@@ -1,5 +1,5 @@
 use std::path::Path;
-use std::process::{self,Stdio};
+use std::process::{self, Stdio};
 
 pub enum CommandError {
     Fail(String),
@@ -18,11 +18,7 @@ pub struct Command<'a> {
 
 impl<'a> Command<'a> {
     pub fn from_str(command_str: &'a str) -> Command<'a> {
-        let mut elements: Vec<&'a str> = command_str
-            .trim_matches('\n')
-            .trim()
-            .split(' ')
-            .collect();
+        let mut elements: Vec<&'a str> = command_str.trim_matches('\n').trim().split(' ').collect();
 
         let bin = elements.remove(0);
 
@@ -32,7 +28,7 @@ impl<'a> Command<'a> {
         }
     }
 
-    pub fn run(&self, os_path: &Vec<String>) -> Result<CommandResult, CommandError> {
+    pub fn run(&self, os_path: &[String]) -> Result<CommandResult, CommandError> {
         if self.bin == "" {
             return Ok(CommandResult::Ok(None));
         }
@@ -51,7 +47,7 @@ impl<'a> Command<'a> {
                         let result = String::from_utf8_lossy(&output.stdout).to_string();
 
                         Ok(CommandResult::Ok(Some(result)))
-                    },
+                    }
 
                     Err(error) => Err(CommandError::Fail(error.to_string())),
                 }
@@ -60,12 +56,12 @@ impl<'a> Command<'a> {
             None => match self.bin {
                 "exit" => Ok(CommandResult::Exit),
 
-                _ => Err(CommandError::NotFound(self.bin.to_string()))
-            }
+                _ => Err(CommandError::NotFound(self.bin.to_string())),
+            },
         }
     }
 
-    fn find_bin(&self, os_path: &Vec<String>) -> Option<String> {
+    fn find_bin(&self, os_path: &[String]) -> Option<String> {
         for path in os_path {
             let path = Path::new(path).join(self.bin);
 
