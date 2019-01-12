@@ -16,7 +16,7 @@ impl Shell {
 
         let os_path: Vec<String> = env::var_os("PATH").unwrap()
             .into_string().unwrap()
-            .split(' ')
+            .split(':')
             .map(|el| String::from(el))
             .collect();
 
@@ -31,7 +31,7 @@ impl Shell {
 
         // TODO: to log command
 
-        current_command.run()
+        current_command.run(&self.os_path)
     }
 
     pub fn get_greeting(&self) -> String {

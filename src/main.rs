@@ -22,12 +22,22 @@ fn main() {
 
         match result {
             Ok(result) => match result {
+                shell::CommandResult::Ok(result) => match result {
+                    Some(message) => print!("{}", message),
+
+                    None => continue,
+                }
+
                 shell::CommandResult::Exit => {
                     break;
                 }
             }
 
             Err(error) => match error {
+                shell::CommandError::Fail(error) => {
+                    eprintln!("shell: command fail: {}", error);
+                }
+
                 shell::CommandError::NotFound(command_name) => {
                     eprintln!("shell: command not found: {}", command_name);
                 }
