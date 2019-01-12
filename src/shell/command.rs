@@ -1,6 +1,12 @@
 use std::path::Path;
 use std::process::{self, Stdio};
 
+const HELP_TEXT: &'static str = "The simplest shell for unix systems, version 0.1.0\n\
+                                 Usage: script-file ...\n\
+                                 Commands:\n\
+                                 \thelp: print this help\n\
+                                 \texit: close shell session\n";
+
 pub enum CommandError {
     Fail(String),
     NotFound(String),
@@ -55,6 +61,7 @@ impl<'a> Command<'a> {
 
             None => match self.bin {
                 "exit" => Ok(CommandResult::Exit),
+                "help" => Ok(CommandResult::Ok(Some(String::from(HELP_TEXT)))),
 
                 _ => Err(CommandError::NotFound(self.bin.to_string())),
             },
