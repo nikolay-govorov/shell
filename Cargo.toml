@@ -1,0 +1,8 @@
+[package]
+name = "shell"
+version = "0.1.0"
+authors = ["Nikolay Govorov <nikolay_govorov@bk.ru>"]
+edition = "2018"
+
+[dependencies]
+dirs = "1.0.4"
